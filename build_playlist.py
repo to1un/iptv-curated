@@ -92,13 +92,7 @@ TARGET_CHANNELS = [
         "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/NASA_logo.svg/960px-NASA_logo.svg.png",
     },
 
-    # --- National / Turkish (Documentary, Occasional Games & Mainstream) ---
-    {
-        "id": "trt_belgesel",
-        "name": "TRT Belgesel (1440p)",
-        "direct_url": "https://tv-trtbelgesel.medya.trt.com.tr/master.m3u8",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/TRT_Belgesel_logo.svg/960px-TRT_Belgesel_logo.svg.png",
-    },
+    # --- National / Turkish (Occasional Games, Mainstream & Documentary) ---
     {
         "id": "trt_1",
         "name": "TRT 1 (1440p)",
@@ -141,6 +135,12 @@ TARGET_CHANNELS = [
         "name": "NTV (720p)",
         "pattern": r"NTV \(Turkiye\)",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/NTV_%28Turkey%29_logo.svg/960px-NTV_%28Turkey%29_logo.svg.png",
+    },
+    {
+        "id": "trt_belgesel",
+        "name": "TRT Belgesel (1440p)",
+        "direct_url": "https://tv-trtbelgesel.medya.trt.com.tr/master.m3u8",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/TRT_Belgesel_logo.svg/960px-TRT_Belgesel_logo.svg.png",
     },
 ]
 
