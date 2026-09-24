@@ -1,0 +1,39 @@
+name: Auto Update Playlist
+
+on:
+  schedule:
+    # Runs every day at 04:00 UTC
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-playlist:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run playlist generator
+        run: |
+          python build_playlist.py
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add playlist.m3u
+          if git diff --staged --quiet; then
+            echo "No changes in playlist.m3u."
+          else
+            git commit -m "chore(playlist): update channel streams [skip ci]"
+            git push
+          fi
