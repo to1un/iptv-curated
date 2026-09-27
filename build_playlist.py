@@ -38,18 +38,6 @@ TARGET_CHANNELS = [
         "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Lionsgate_2019.svg/960px-Lionsgate_2019.svg.png",
     },
     {
-        "id": "dust",
-        "name": "DUST (1080p)",
-        "pattern": r"\bDUST \(1080p\)",
-        "logo": "https://i.imgur.com/2sO97gM.png",
-    },
-    {
-        "id": "redbull_tv",
-        "name": "Red Bull TV (1080p)",
-        "pattern": r"Red Bull TV \(1080p\)",
-        "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/f/f5/Red_Bull_TV_logo.svg/960px-Red_Bull_TV_logo.svg.png",
-    },
-    {
         "id": "trt_world",
         "name": "TRT World (1440p)",
         "direct_url": "https://tv-trtworld.medya.trt.com.tr/master.m3u8",
@@ -85,12 +73,6 @@ TARGET_CHANNELS = [
         "pattern": r"CNA \(Singapore\) \(1080p\)",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/CNA_%28TV_network%29_logo.svg/960px-CNA_%28TV_network%29_logo.svg.png",
     },
-    {
-        "id": "nasa_tv",
-        "name": "NASA TV (1080p)",
-        "direct_url": "https://ntv1.akamaized.net/hls/live/2014075/NASA-NTV1-HLS/master.m3u8",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/NASA_logo.svg/960px-NASA_logo.svg.png",
-    },
 
     # --- National / Turkish (Occasional Games, Mainstream & Documentary) ---
     {
@@ -102,8 +84,8 @@ TARGET_CHANNELS = [
     },
     {
         "id": "trt_spor",
-        "name": "TRT Spor (720p)",
-        "pattern": r"TRT Spor \(720p\)",
+        "name": "TRT Spor (1440p)",
+        "direct_url": "https://tv-trtspor1.medya.trt.com.tr/master.m3u8",
         "logo": "https://i.imgur.com/6tv0zxh.png",
     },
     {
