@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 IPTV Curated Playlist Generator
-Fetches sources from iptv-org, filters desired channels, strips all group metadata (flat list),
+Fetches sources from iptv-org and doms9, filters desired channels, strips all group metadata (flat list),
 and outputs a clean, auto-updating playlist.m3u in the exact preferred order.
 """
 
@@ -12,13 +12,15 @@ import urllib.request
 SOURCES = [
     "https://iptv-org.github.io/iptv/index.m3u",
     "https://iptv-org.github.io/iptv/countries/tr.m3u",
+    "https://raw.githubusercontent.com/doms9/iptv/refs/heads/default/M3U8/TV.m3u8",
+    "https://raw.githubusercontent.com/doms9/iptv/refs/heads/default/M3U8/base.m3u8",
 ]
 
 OUTPUT_FILE = "playlist.m3u"
 
 # Target channels in exact order of appearance
 TARGET_CHANNELS = [
-    # --- Global / English (Culture, Movies & Documentaries) ---
+    # --- Global & News (English) ---
     {
         "id": "dw_english",
         "name": "DW English (1080p)",
@@ -30,12 +32,6 @@ TARGET_CHANNELS = [
         "name": "NHK World-Japan (1080p)",
         "pattern": r"NHK World-Japan \(1080p\)",
         "logo": "https://jiotvimages.cdn.jio.com/dare_images/images/NHK_World_Japan.png",
-    },
-    {
-        "id": "moviesphere",
-        "name": "MovieSphere (1080p)",
-        "pattern": r"MovieSphere UK \(1080p\)",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Lionsgate_2019.svg/960px-Lionsgate_2019.svg.png",
     },
     {
         "id": "trt_world",
@@ -58,7 +54,7 @@ TARGET_CHANNELS = [
     {
         "id": "sky_news",
         "name": "Sky News (1080p)",
-        "pattern": r"Sky News.*1080p|Sky News$",
+        "pattern": r"^Sky News.*1080p|^Sky News$",
         "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/a/a8/Sky_News_logo_2020.svg/960px-Sky_News_logo_2020.svg.png",
     },
     {
@@ -74,11 +70,72 @@ TARGET_CHANNELS = [
         "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/CNA_%28TV_network%29_logo.svg/960px-CNA_%28TV_network%29_logo.svg.png",
     },
 
+    # --- Movies & Series (English) ---
+    {
+        "id": "moviesphere",
+        "name": "MovieSphere (1080p)",
+        "pattern": r"MovieSphere UK \(1080p\)",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Lionsgate_2019.svg/960px-Lionsgate_2019.svg.png",
+    },
+    {
+        "id": "hbo_zone",
+        "name": "HBO Zone (1080p)",
+        "pattern": r"^HBO Zone$",
+        "logo": "https://schedulesdirect-api20141201-logos.s3.dualstack.us-east-1.amazonaws.com/stationLogos/s18431_dark_360w_270h.png",
+    },
+    {
+        "id": "cinemax",
+        "name": "Cinemax (1080p)",
+        "pattern": r"^Cinemax$",
+        "logo": "https://raw.githubusercontent.com/tv-logo/tv-logos/refs/heads/main/countries/united-states/cinemax-us.png",
+    },
+    {
+        "id": "cinemax_classics",
+        "name": "Cinemax Classics (1080p)",
+        "pattern": r"^Cinemax Classics$",
+        "logo": "https://raw.githubusercontent.com/tv-logo/tv-logos/refs/heads/main/countries/united-states/cinemax-classics-us.png",
+    },
+    {
+        "id": "starz_cinema",
+        "name": "Starz Cinema (1080p)",
+        "pattern": r"^Starz Cinema$",
+        "logo": "https://schedulesdirect-api20141201-logos.s3.dualstack.us-east-1.amazonaws.com/stationLogos/s67236_dark_360w_270h.png",
+    },
+    {
+        "id": "starz_comedy",
+        "name": "Starz Comedy (1080p)",
+        "pattern": r"^Starz Comedy$",
+        "logo": "https://schedulesdirect-api20141201-logos.s3.dualstack.us-east-1.amazonaws.com/stationLogos/s34901_dark_360w_270h.png",
+    },
+    {
+        "id": "paramount_network",
+        "name": "Paramount Network (1080p)",
+        "pattern": r"^Paramount Network$",
+        "logo": "http://schedulesdirect-api20141201-logos.s3.dualstack.us-east-1.amazonaws.com/stationLogos/s11163_dark_360w_270h.png",
+    },
+    {
+        "id": "syfy",
+        "name": "Syfy (1080p)",
+        "pattern": r"^Syfy$",
+        "logo": "http://schedulesdirect-api20141201-logos.s3.dualstack.us-east-1.amazonaws.com/stationLogos/s11097_dark_360w_270h.png",
+    },
+    {
+        "id": "ifc",
+        "name": "IFC (1080p)",
+        "pattern": r"^IFC$",
+        "logo": "https://schedulesdirect-api20141201-logos.s3.dualstack.us-east-1.amazonaws.com/stationLogos/s14873_dark_360w_270h.png",
+    },
+    {
+        "id": "amc",
+        "name": "AMC (720p)",
+        "pattern": r"^AMC$",
+        "logo": "https://schedulesdirect-api20141201-logos.s3.dualstack.us-east-1.amazonaws.com/stationLogos/s10021_dark_360w_270h.png",
+    },
+
     # --- National / Turkish (Occasional Games, Mainstream & Documentary) ---
     {
         "id": "trt_1",
         "name": "TRT 1 (1440p)",
-        "pattern": r"TRT 1 \(1440p\)",
         "direct_url": "https://tv-trt1.medya.trt.com.tr/master.m3u8",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/TRT_1_logo_%282021-%29.svg/960px-TRT_1_logo_%282021-%29.svg.png",
     },
@@ -134,7 +191,7 @@ def fetch_source(url: str) -> str:
         return resp.read().decode("utf-8", errors="ignore")
 
 
-def parse_iptv_org(raw_text: str) -> dict[str, tuple[str, str]]:
+def parse_m3u_sources(raw_text: str) -> dict[str, tuple[str, str]]:
     """
     Parses raw M3U text and indexes entries by matched channel name.
     """
@@ -145,7 +202,10 @@ def parse_iptv_org(raw_text: str) -> dict[str, tuple[str, str]]:
         if len(lines) < 2:
             continue
         header = lines[0]
-        url = lines[-1]
+        url_lines = [l for l in lines if l.startswith("http")]
+        if not url_lines:
+            continue
+        url = url_lines[-1]
         name = header.split(",")[-1].strip()
         parsed[name] = (header, url)
     return parsed
@@ -159,7 +219,7 @@ def main():
         except Exception as err:
             print(f"Warning: Failed to fetch {src}: {err}", file=sys.stderr)
 
-    available_streams = parse_iptv_org(combined_raw)
+    available_streams = parse_m3u_sources(combined_raw)
     ordered_entries = []
 
     for item in TARGET_CHANNELS:
@@ -173,6 +233,10 @@ def main():
             for channel_title, (header, url) in available_streams.items():
                 if pat.search(channel_title):
                     stream_url = url
+                    if not logo_url:
+                        m = re.search(r'tvg-logo="([^"]+)"', header)
+                        if m:
+                            logo_url = m.group(1)
                     break
 
         if not stream_url:
