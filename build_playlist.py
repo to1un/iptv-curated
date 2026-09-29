@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 IPTV Curated Playlist Generator
-Fetches sources from iptv-org and doms9, filters desired channels, strips all group metadata (flat list),
+Fetches sources from iptv-org and doms9, filters desired channels, strips group metadata,
 and outputs a clean, auto-updating playlist.m3u in the exact preferred order.
 """
 
@@ -132,7 +132,59 @@ TARGET_CHANNELS = [
         "logo": "https://schedulesdirect-api20141201-logos.s3.dualstack.us-east-1.amazonaws.com/stationLogos/s10021_dark_360w_270h.png",
     },
 
-    # --- National / Turkish (Occasional Games, Mainstream & Documentary) ---
+    # --- Documentary & Science (English) ---
+    {
+        "id": "science_channel",
+        "name": "Science Channel (1080p)",
+        "pattern": r"^Science Channel$",
+        "logo": "http://schedulesdirect-api20141201-logos.s3.dualstack.us-east-1.amazonaws.com/stationLogos/s24282_dark_360w_270h.png",
+    },
+    {
+        "id": "nat_geo",
+        "name": "Nat Geo (720p)",
+        "pattern": r"^Nat Geo$",
+        "logo": "http://schedulesdirect-api20141201-logos.s3.dualstack.us-east-1.amazonaws.com/stationLogos/s49438_dark_360w_270h.png",
+    },
+    {
+        "id": "nat_geo_wild",
+        "name": "Nat Geo Wild (720p)",
+        "pattern": r"^Nat Geo Wild$",
+        "logo": "https://schedulesdirect-api20141201-logos.s3.dualstack.us-east-1.amazonaws.com/stationLogos/s86880_dark_360w_270h.png",
+    },
+    {
+        "id": "animal_planet",
+        "name": "Animal Planet (1080p)",
+        "pattern": r"^Animal Planet$",
+        "logo": "http://schedulesdirect-api20141201-logos.s3.dualstack.us-east-1.amazonaws.com/stationLogos/s16331_dark_360w_270h.png",
+    },
+    {
+        "id": "bbc_america",
+        "name": "BBC America (1080p)",
+        "pattern": r"^BBC America$",
+        "logo": "http://schedulesdirect-api20141201-logos.s3.dualstack.us-east-1.amazonaws.com/stationLogos/s64492_dark_360w_270h.png",
+    },
+
+    # --- Sports (English & TR) ---
+    {
+        "id": "sky_sports_f1",
+        "name": "Sky Sports F1 (720p)",
+        "pattern": r"^Sky Sports F1$",
+        "logo": "https://raw.githubusercontent.com/tv-logo/tv-logos/refs/heads/main/countries/united-kingdom/sky-sports-f1-icon-uk.png",
+    },
+    {
+        "id": "nba_tv",
+        "name": "NBA TV (1080p)",
+        "pattern": r"^NBA TV$",
+        "logo": "http://schedulesdirect-api20141201-logos.s3.dualstack.us-east-1.amazonaws.com/stationLogos/s32281_dark_360w_270h.png",
+    },
+    {
+        "id": "trt_spor",
+        "name": "TRT Spor (1440p)",
+        "direct_url": "https://tv-trtspor1.medya.trt.com.tr/master.m3u8",
+        "logo": "https://i.imgur.com/6tv0zxh.png",
+    },
+
+    # --- National / Turkish ---
     {
         "id": "trt_1",
         "name": "TRT 1 (1440p)",
@@ -140,10 +192,10 @@ TARGET_CHANNELS = [
         "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/TRT_1_logo_%282021-%29.svg/960px-TRT_1_logo_%282021-%29.svg.png",
     },
     {
-        "id": "trt_spor",
-        "name": "TRT Spor (1440p)",
-        "direct_url": "https://tv-trtspor1.medya.trt.com.tr/master.m3u8",
-        "logo": "https://i.imgur.com/6tv0zxh.png",
+        "id": "trt_belgesel",
+        "name": "TRT Belgesel (1440p)",
+        "direct_url": "https://tv-trtbelgesel.medya.trt.com.tr/master.m3u8",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/TRT_Belgesel_logo.svg/960px-TRT_Belgesel_logo.svg.png",
     },
     {
         "id": "tv8",
@@ -174,12 +226,6 @@ TARGET_CHANNELS = [
         "name": "NTV (720p)",
         "pattern": r"NTV \(Turkiye\)",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/NTV_%28Turkey%29_logo.svg/960px-NTV_%28Turkey%29_logo.svg.png",
-    },
-    {
-        "id": "trt_belgesel",
-        "name": "TRT Belgesel (1440p)",
-        "direct_url": "https://tv-trtbelgesel.medya.trt.com.tr/master.m3u8",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/TRT_Belgesel_logo.svg/960px-TRT_Belgesel_logo.svg.png",
     },
 ]
 
