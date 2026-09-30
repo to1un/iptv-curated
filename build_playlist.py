@@ -150,6 +150,29 @@ TARGET_CHANNELS = [
         "logo": "https://schedulesdirect-api20141201-logos.s3.dualstack.us-east-1.amazonaws.com/stationLogos/s10021_dark_360w_270h.png",
     },
 
+    # --- Animation & Classics (English) ---
+    {
+        "id": "cartoon_network",
+        "name": "Cartoon Network (1080p)",
+        "pattern": r"^Cartoon Network$",
+        "tvg_id": "Cartoon.Network.HD.us2",
+        "logo": "https://raw.githubusercontent.com/tv-logo/tv-logos/refs/heads/main/countries/united-states/cartoon-network-us.png",
+    },
+    {
+        "id": "boomerang",
+        "name": "Boomerang (1080p)",
+        "pattern": r"^Boomerang$",
+        "tvg_id": "Boomerang.us2",
+        "logo": "https://raw.githubusercontent.com/tv-logo/tv-logos/refs/heads/main/countries/united-states/boomerang-us.png",
+    },
+    {
+        "id": "disney_xd",
+        "name": "Disney XD (720p)",
+        "pattern": r"^Disney XD$",
+        "tvg_id": "Disney.XD.HD.us2",
+        "logo": "https://raw.githubusercontent.com/tv-logo/tv-logos/refs/heads/main/countries/united-states/disney-xd-us.png",
+    },
+
     # --- Documentary & Science (English) ---
     {
         "id": "science_channel",
@@ -224,6 +247,13 @@ TARGET_CHANNELS = [
         "direct_url": "https://tv-trtbelgesel.medya.trt.com.tr/master.m3u8",
         "tvg_id": "TRT.BELGESEL.HD.tr",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/TRT_Belgesel_logo.svg/960px-TRT_Belgesel_logo.svg.png",
+    },
+    {
+        "id": "trt_cocuk",
+        "name": "TRT Çocuk (1440p)",
+        "direct_url": "https://tv-trtcocuk.medya.trt.com.tr/master.m3u8",
+        "tvg_id": "TRT.ÇOCUK.HD.tr",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/TRT_%C3%87ocuk_logo_%282021%29.svg/960px-TRT_%C3%87ocuk_logo_%282021%29.svg.png",
     },
     {
         "id": "tv8",
