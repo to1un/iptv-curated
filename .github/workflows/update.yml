@@ -30,10 +30,10 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add playlist.m3u
+          git add playlist.m3u epg.xml.gz
           if git diff --staged --quiet; then
-            echo "No changes in playlist.m3u."
+            echo "No changes in playlist or EPG."
           else
-            git commit -m "chore(playlist): update channel streams [skip ci]"
+            git commit -m "chore(update): refresh playlist and epg [skip ci]"
             git push
           fi
