@@ -84,6 +84,7 @@ TARGET_CHANNELS = [
         "id": "moviesphere",
         "name": "MovieSphere (1080p)",
         "pattern": r"MovieSphere UK \(1080p\)",
+        "tvg_id": "Moviesphere.au",
         "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Lionsgate_2019.svg/960px-Lionsgate_2019.svg.png",
     },
     {

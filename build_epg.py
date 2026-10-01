@@ -62,6 +62,9 @@ EPG_SOURCES = {
     "https://epgshare01.online/epgshare01/epg_ripper_ALJAZEERA1.xml.gz": {
         "AlJazeera.English.net",
     },
+    "https://epgshare01.online/epgshare01/epg_ripper_AU1.xml.gz": {
+        "Moviesphere.au",
+    },
 }
 
 
