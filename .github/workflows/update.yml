@@ -1,16 +1,28 @@
-name: Auto Update Playlist
+name: Build and Deploy IPTV & EPG
 
 on:
   schedule:
-    # Runs every day at 04:00 UTC
+    # Runs daily at 04:00 UTC
     - cron: '0 4 * * *'
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
-  update-playlist:
+  build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
 
     steps:
@@ -22,18 +34,24 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Run playlist generator
+      - name: Generate Playlist and EPG
         run: |
           python build_playlist.py
+          python build_epg.py
 
-      - name: Commit and push changes
+      - name: Prepare site directory
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add playlist.m3u epg.xml.gz
-          if git diff --staged --quiet; then
-            echo "No changes in playlist or EPG."
-          else
-            git commit -m "chore(update): refresh playlist and epg [skip ci]"
-            git push
-          fi
+          mkdir -p ./_site
+          cp playlist.m3u epg.xml.gz ./_site/
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './_site'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

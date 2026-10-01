@@ -17,7 +17,8 @@ SOURCES = [
 ]
 
 OUTPUT_FILE = "playlist.m3u"
-EPG_URL = "https://raw.githubusercontent.com/to1un/iptv-curated/main/epg.xml.gz"
+EPG_URL = "https://to1un.github.io/iptv-curated/epg.xml.gz"
+# Backup raw URL: https://raw.githubusercontent.com/to1un/iptv-curated/main/epg.xml.gz
 
 # Target channels in exact order of appearance
 TARGET_CHANNELS = [
