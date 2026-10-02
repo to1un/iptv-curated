@@ -68,12 +68,23 @@ EPG_SOURCES = {
 }
 
 
+# Custom display-name aliases for robust player matching across various IPTV apps
+CHANNEL_ALIASES = {
+    "Moviesphere.au": ["MovieSphere", "Moviesphere", "MovieSphere UK"],
+    "FOX.HD.tr": ["NOW TV", "NOW"],
+    "SkySp.F1.uk": ["Sky Sports F1"],
+    "Deutsche.Welle.(English).sg": ["DW English"],
+    "Bloomberg.Television.(HD).sg": ["Bloomberg Originals"],
+    "National.Geographic.HD.us2": ["Nat Geo"],
+}
+
+
 def fetch_and_extract(url: str, target_ids: set[str]) -> tuple[list[str], list[str]]:
     print(f"Fetching EPG source: {url.split('/')[-1]}")
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
     try:
         with urllib.request.urlopen(req, timeout=30) as resp:
-            data = gzip.decompress(resp.read()).decode("utf-8", errors="ignore")
+            data = gzip.decompress(resp.read()).decode("utf-8", errors="ignore").replace("\r\n", "\n")
     except Exception as err:
         print(f"  [-] Failed to fetch {url}: {err}", file=sys.stderr)
         return [], []
@@ -82,8 +93,19 @@ def fetch_and_extract(url: str, target_ids: set[str]) -> tuple[list[str], list[s
     programmes = []
 
     for m in re.finditer(r"(<channel id=\"([^\"]+)\">.*?</channel>)", data, re.DOTALL):
-        if m.group(2) in target_ids:
-            channels.append(m.group(1))
+        ch_id = m.group(2)
+        if ch_id in target_ids:
+            ch_xml = m.group(1)
+            if ch_id in CHANNEL_ALIASES:
+                aliases_to_add = [
+                    f'    <display-name lang="en">{alias}</display-name>'
+                    for alias in CHANNEL_ALIASES[ch_id]
+                    if f">{alias}<" not in ch_xml
+                ]
+                if aliases_to_add:
+                    pos = ch_xml.find(">") + 1
+                    ch_xml = ch_xml[:pos] + "\n" + "\n".join(aliases_to_add) + ch_xml[pos:]
+            channels.append(ch_xml)
 
     for m in re.finditer(r"(<programme [^>]*channel=\"([^\"]+)\".*?</programme>)", data, re.DOTALL):
         if m.group(2) in target_ids:
